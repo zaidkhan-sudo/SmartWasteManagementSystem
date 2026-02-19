@@ -16,7 +16,7 @@ async function checkCitizen() {
       process.exit(1);
     }
 
-    const user = users[0][0];
+    const user = users[0];
     console.log('✅ Found user:', {
       id: user.id,
       name: user.name,

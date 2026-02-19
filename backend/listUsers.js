@@ -7,14 +7,14 @@ async function listUsers() {
     );
 
     if (users.length === 0) {
-      console.log('❌ No users found!');
+      // console.log('❌ No users found!');
     } else {
       users.forEach(user => {
-        console.log(`${user.id}. ${user.name} (${user.email}) - ${user.role}`);
+        // console.log(`${user.id}. ${user.name} (${user.email}) - ${user.role}`);
       });
     }
 
-    console.log(`\nTotal users: ${users.length}`);
+    // console.log(`\nTotal users: ${users.length}`);
     process.exit(0);
   } catch (error) {
     console.error('❌ Error:', error);
