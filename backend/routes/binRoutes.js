@@ -15,7 +15,7 @@ router.route('/')
 
 router.route('/:id')
   .get(protect, getBin)
-  .put(protect, authorize('admin', 'collector'), updateBin)
+  .put(protect, authorize('admin'), authorize('collector'), updateBin)
   .delete(protect, authorize('admin'), deleteBin);
 
 module.exports = router;

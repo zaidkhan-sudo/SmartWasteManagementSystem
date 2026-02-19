@@ -378,7 +378,6 @@ const Bins = () => {
                       placeholder="100"
                     />
                   </div>
-
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Fill Level (%) *

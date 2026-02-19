@@ -26,8 +26,8 @@ const Dashboard = () => {
       setLoading(true);
       const [statsResponse, binsResponse, reportsResponse] = await Promise.all([
         analyticsAPI.getDashboard(user?.token),
-        binsAPI.getAll({ limit: 5, token: user?.token }),
-        reportsAPI.getAll({ limit: 5, token: user?.token })
+        binsAPI.getAll(5, user?.token),
+        reportsAPI.getAll(5, user?.token)
       ]);
 
       setStats(statsResponse.data.data);

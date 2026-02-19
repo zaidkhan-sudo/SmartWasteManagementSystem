@@ -32,7 +32,6 @@ async function updatePasswords() {
     console.log('✅ Citizen password updated');
 
     console.log('\n🎉 All passwords updated successfully!');
-    // Removing console logs that expose default credentials
     return 0;
   } catch (error) {
     console.error('❌ Error updating passwords:', error);
