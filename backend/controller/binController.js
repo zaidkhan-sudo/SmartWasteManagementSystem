@@ -135,7 +135,7 @@ exports.updateBin = async (req, res) => {
            status = COALESCE(?, status),
            type = COALESCE(?, type)
        WHERE id = ?`,
-      [location, latitude, longitude, capacity, fill_level, updatedStatus, type, req.params.id]
+      [location, latitude, longitude, capacity, fill_level, updatedStatus !== undefined ? updatedStatus : null, type, req.params.id]
     );
 
     const [updatedBin] = await db.query('SELECT * FROM bins WHERE id = ?', [req.params.id]);

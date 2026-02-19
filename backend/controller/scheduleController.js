@@ -9,10 +9,10 @@ exports.getAllSchedules = async (req, res) => {
     
     let query = `
       SELECT s.*, 
-             b.bin_id as bin_id_ref, b.location as bin_location, b.status as bin_status, b.fill_level,
-             u.name as collector_name
+      b.bin_id as bin_id_ref, b.location as bin_location, b.status as bin_status, b.fill_level,
+      u.name as collector_name
       FROM schedules s
-      LEFT JOIN bins b ON s.bin_id = b.id
+      LEFT JOIN bins b ON s.bin_id = b.bin_id
       LEFT JOIN users u ON s.collector_id = u.id
       WHERE 1=1
     `;
@@ -64,12 +64,12 @@ exports.getSchedule = async (req, res) => {
   try {
     const [schedules] = await db.query(
       `SELECT s.*, 
-              b.bin_id as bin_id_ref, b.location as bin_location, b.latitude, b.longitude, b.status as bin_status, b.fill_level,
-              u.name as collector_name, u.phone as collector_phone
-       FROM schedules s
-       LEFT JOIN bins b ON s.bin_id = b.id
-       LEFT JOIN users u ON s.collector_id = u.id
-       WHERE s.id = ?`,
+      b.bin_id as bin_id_ref, b.location as bin_location, b.latitude, b.longitude, b.status as bin_status, b.fill_level,
+      u.name as collector_name, u.phone as collector_phone
+      FROM schedules s
+      LEFT JOIN bins b ON s.bin_id = b.bin_id
+      LEFT JOIN users u ON s.collector_id = u.id
+      WHERE s.id = ?`,
       [req.params.id]
     );
 
@@ -102,16 +102,16 @@ exports.createSchedule = async (req, res) => {
 
     const [result] = await db.query(
       `INSERT INTO schedules (bin_id, collector_id, scheduled_date, scheduled_time, route, status)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+      VALUES (?, ?, ?, ?, ?, ?)`,
       [bin_id, collector_id || null, scheduled_date, scheduled_time || '09:00:00', route || null, status || 'pending']
     );
 
     const [newSchedule] = await db.query(
-      `SELECT s.*, b.id as bin_id_ref, b.location as bin_location, u.name as collector_name
-       FROM schedules s
-       LEFT JOIN bins b ON s.bin_id = b.id
-       LEFT JOIN users u ON s.collector_id = u.id
-       WHERE s.id = ?`,
+      `SELECT s.*, b.bin_id as bin_id_ref, b.location as bin_location, u.name as collector_name
+      FROM schedules s
+      LEFT JOIN bins b ON s.bin_id = b.bin_id
+      LEFT JOIN users u ON s.collector_id = u.id
+      WHERE s.id = ?`,
       [result.insertId]
     );
 
@@ -150,22 +150,22 @@ exports.updateSchedule = async (req, res) => {
 
     await db.query(
       `UPDATE schedules 
-       SET collector_id = COALESCE(?, collector_id),
-           scheduled_date = COALESCE(?, scheduled_date),
-           scheduled_time = COALESCE(?, scheduled_time),
-           status = COALESCE(?, status),
-           route = COALESCE(?, route),
-           completed_at = CASE WHEN ? = 'completed' THEN NOW() ELSE completed_at END
-       WHERE id = ?`,
+      SET collector_id = COALESCE(?, collector_id),
+      scheduled_date = COALESCE(?, scheduled_date),
+      scheduled_time = COALESCE(?, scheduled_time),
+      status = COALESCE(?, status),
+      route = COALESCE(?, route),
+      completed_at = CASE WHEN ? = 'completed' THEN NOW() ELSE completed_at END
+      WHERE id = ?`,
       [collector_id, scheduled_date, scheduled_time, status, route, status, req.params.id]
     );
 
     const [updatedSchedule] = await db.query(
-      `SELECT s.*, b.id as bin_id_ref, b.location as bin_location, u.name as collector_name
-       FROM schedules s
-       LEFT JOIN bins b ON s.bin_id = b.id
-       LEFT JOIN users u ON s.collector_id = u.id
-       WHERE s.id = ?`,
+      `SELECT s.*, b.bin_id as bin_id_ref, b.location as bin_location, u.name as collector_name
+      FROM schedules s
+      LEFT JOIN bins b ON s.bin_id = b.bin_id
+      LEFT JOIN users u ON s.collector_id = u.id
+      WHERE s.id = ?`,
       [req.params.id]
     );
 

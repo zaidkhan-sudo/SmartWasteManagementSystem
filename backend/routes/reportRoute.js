@@ -15,7 +15,7 @@ router.route('/')
 
 router.route('/:id')
   .get(protect, getReport)
-  .put(protect, authorize('admin'), authorize('collector'), updateReport)
+  .put(protect, authorize('admin', 'collector'), updateReport)
   .delete(protect, authorize('admin'), deleteReport);
 
 module.exports = router;

@@ -9,24 +9,26 @@ async function checkCitizen() {
       ['citizen@smartwaste.com']
     );
 
-    if (users.length === 0) {
+    if (users[0].length === 0) {
       console.log('Citizen user not found, please create one.');
       return;
     }
 
-    const user = users[0];
+    const user = users[0][0];
 
     const testPassword = 'citizen123';
-    const isValid = await bcrypt.compare(testPassword, user.password);
+    if (user) {
+      const isValid = await bcrypt.compare(testPassword, user.password);
 
-    if (!isValid) {
-      console.log('Updating password...');
-      const newHash = await bcrypt.hash(testPassword, 10);
-      await db.query(
-        'UPDATE users SET password = ? WHERE email = ?',
-        [newHash, 'citizen@smartwaste.com']
-      );
-      console.log('Password updated successfully!');
+      if (!isValid) {
+        console.log('Updating password...');
+        const newHash = await bcrypt.hash(testPassword, 10);
+        await db.query(
+          'UPDATE users SET password = ? WHERE email = ?',
+          [newHash, 'citizen@smartwaste.com']
+        );
+        console.log('Password updated successfully!');
+      }
     }
   } catch (error) {
     console.error('Error:', error);

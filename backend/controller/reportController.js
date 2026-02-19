@@ -129,9 +129,9 @@ exports.createReport = async (req, res) => {
     );
 
     const [newReport] = await db.query(
-      `SELECT r.*, b.id, b.location as bin_location, u.name as reporter_name
+      `SELECT r.*, b.bin_id, b.location as bin_location, u.name as reporter_name
        FROM reports r
-       LEFT JOIN bins b ON r.bin_id = b.id
+       LEFT JOIN bins b ON r.bin_id = b.bin_id
        LEFT JOIN users u ON r.user_id = u.id
        WHERE r.id = ?`,
       [result.insertId]
@@ -252,9 +252,9 @@ exports.updateReport = async (req, res) => {
     }
 
     const [updatedReport] = await db.query(
-      `SELECT r.*, b.id, b.location as bin_location, u.name as reporter_name
+      `SELECT r.*, b.bin_id, b.location as bin_location, u.name as reporter_name
        FROM reports r
-       LEFT JOIN bins b ON r.bin_id = b.id
+       LEFT JOIN bins b ON r.bin_id = b.bin_id
        LEFT JOIN users u ON r.user_id = u.id
        WHERE r.id = ?`,
       [req.params.id]
