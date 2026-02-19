@@ -100,10 +100,17 @@ exports.createSchedule = async (req, res) => {
   try {
     const { bin_id, collector_id, scheduled_date, scheduled_time, route, status } = req.body;
 
+    if (!collector_id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Collector ID is required'
+      });
+    }
+
     const [result] = await db.query(
       `INSERT INTO schedules (bin_id, collector_id, scheduled_date, scheduled_time, route, status)
        VALUES (?, ?, ?, ?, ?, ?)`,
-      [bin_id, collector_id || null, scheduled_date, scheduled_time || '09:00:00', route || null, status || 'pending']
+      [bin_id, collector_id, scheduled_date, scheduled_time || '09:00:00', route || null, status || 'pending']
     );
 
     const [newSchedule] = await db.query(

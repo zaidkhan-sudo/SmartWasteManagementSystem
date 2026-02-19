@@ -16,12 +16,12 @@ async function checkCitizen() {
       process.exit(1);
     }
 
-    if (users[0].length === 0) {
+    if (!users[0]) {
       console.log('❌ Citizen user not found!');
       process.exit(1);
     }
 
-    const user = users[0][0];
+    const user = users[0];
     console.log('✅ Found user:', {
       id: user.id,
       name: user.name,
