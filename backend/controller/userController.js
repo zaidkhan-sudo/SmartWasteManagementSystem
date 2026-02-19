@@ -76,7 +76,7 @@ exports.updateUser = async (req, res) => {
     }
 
     // Check authorization (only admin or own profile)
-    if (req.user.role !== 'admin' && req.user.id !== parseInt(userId)) {
+    if (req.user && req.user.id !== parseInt(userId) && req.user.role !== 'admin') {
       return res.status(403).json({
         success: false,
         message: 'Not authorized to update this user'
@@ -220,7 +220,7 @@ exports.updatePassword = async (req, res) => {
     }
 
     // Check authorization (only admin or own profile)
-    if (req.user.role !== 'admin' && req.user.id !== parseInt(userId)) {
+    if (req.user && req.user.id !== parseInt(userId) && req.user.role !== 'admin') {
       return res.status(403).json({
         success: false,
         message: 'Not authorized to update this password'

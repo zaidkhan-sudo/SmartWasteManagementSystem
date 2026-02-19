@@ -9,7 +9,7 @@ exports.getAllReports = async (req, res) => {
     
     let query = `
       SELECT r.*, 
-             b.id, b.location as bin_location,
+             b.id as bin_id, b.location as bin_location,
              u.name as reporter_name
       FROM reports r
       LEFT JOIN bins b ON r.bin_id = b.id
@@ -64,7 +64,7 @@ exports.getReport = async (req, res) => {
   try {
     const [reports] = await db.query(
       `SELECT r.*, 
-              b.id, b.location as bin_location,
+              b.id as bin_id, b.location as bin_location,
               u.name as reporter_name, u.email as reporter_email, u.phone as reporter_phone
        FROM reports r
        LEFT JOIN bins b ON r.bin_id = b.id
@@ -129,7 +129,7 @@ exports.createReport = async (req, res) => {
     );
 
     const [newReport] = await db.query(
-      `SELECT r.*, b.id, b.location as bin_location, u.name as reporter_name
+      `SELECT r.*, b.id as bin_id, b.location as bin_location, u.name as reporter_name
        FROM reports r
        LEFT JOIN bins b ON r.bin_id = b.id
        LEFT JOIN users u ON r.user_id = u.id
@@ -201,22 +201,22 @@ exports.updateReport = async (req, res) => {
     const params = [];
 
     // Citizens can edit basic fields if it's their report
-    if (bin_id && (req.user.role === 'citizen' && reports[0].user_id === req.user.id)) {
+    if (bin_id && (reports[0].user_id === req.user.id && req.user.role === 'citizen')) {
       updateFields.push('bin_id = ?');
       params.push(bin_id);
     }
 
-    if (issue_type && (req.user.role === 'citizen' && reports[0].user_id === req.user.id)) {
+    if (issue_type && (reports[0].user_id === req.user.id && req.user.role === 'citizen')) {
       updateFields.push('issue_type = ?');
       params.push(issue_type);
     }
 
-    if (description && (req.user.role === 'citizen' && reports[0].user_id === req.user.id)) {
+    if (description && (reports[0].user_id === req.user.id && req.user.role === 'citizen')) {
       updateFields.push('description = ?');
       params.push(description);
     }
 
-    if (priority && (req.user.role === 'citizen' && reports[0].user_id === req.user.id)) {
+    if (priority && (reports[0].user_id === req.user.id && req.user.role === 'citizen')) {
       updateFields.push('priority = ?');
       params.push(priority);
     }
@@ -250,7 +250,7 @@ exports.updateReport = async (req, res) => {
     }
 
     const [updatedReport] = await db.query(
-      `SELECT r.*, b.id, b.location as bin_location, u.name as reporter_name
+      `SELECT r.*, b.id as bin_id, b.location as bin_location, u.name as reporter_name
        FROM reports r
        LEFT JOIN bins b ON r.bin_id = b.id
        LEFT JOIN users u ON r.user_id = u.id
