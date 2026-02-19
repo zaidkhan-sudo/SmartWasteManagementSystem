@@ -24,7 +24,7 @@ exports.protect = async (req, res, next) => {
         [decoded.id]
       );
 
-      if (users[0].length === 0) {
+      if (users.length === 0 || users[0].length === 0) {
         return res.status(401).json({
           success: false,
           message: 'User not found'
