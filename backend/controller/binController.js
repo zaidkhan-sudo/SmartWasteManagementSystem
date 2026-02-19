@@ -84,7 +84,7 @@ exports.createBin = async (req, res) => {
 
     const [newBin] = await db.query(
       'SELECT * FROM bins WHERE id = ?',
-      [result.insertId]
+      [req.body.id]
     );
 
     res.status(201).json({

@@ -9,7 +9,7 @@ exports.getAllSchedules = async (req, res) => {
     
     let query = `
       SELECT s.*, 
-             b.id as bin_id_ref, b.location as bin_location, b.status as bin_status, b.fill_level,
+             b.id AS bin_id, b.location as bin_location, b.status as bin_status, b.fill_level,
              u.name as collector_name
       FROM schedules s
       LEFT JOIN bins b ON s.bin_id = b.id
@@ -64,7 +64,7 @@ exports.getSchedule = async (req, res) => {
   try {
     const [schedules] = await db.query(
       `SELECT s.*, 
-              b.id as bin_id_ref, b.location as bin_location, b.latitude, b.longitude, b.status as bin_status, b.fill_level,
+              b.id AS bin_id, b.location as bin_location, b.latitude, b.longitude, b.status as bin_status, b.fill_level,
               u.name as collector_name, u.phone as collector_phone
        FROM schedules s
        LEFT JOIN bins b ON s.bin_id = b.id
@@ -107,7 +107,7 @@ exports.createSchedule = async (req, res) => {
     );
 
     const [newSchedule] = await db.query(
-      `SELECT s.*, b.id as bin_id_ref, b.location as bin_location, u.name as collector_name
+      `SELECT s.*, b.id AS bin_id, b.location as bin_location, u.name as collector_name
        FROM schedules s
        LEFT JOIN bins b ON s.bin_id = b.id
        LEFT JOIN users u ON s.collector_id = u.id
@@ -146,7 +146,7 @@ exports.updateSchedule = async (req, res) => {
     }
 
     // If status is being set to completed, update completed_at
-    const completedAt = status === 'completed' ? 'NOW()' : 'completed_at';
+    // const completed_at = status === 'completed' ? 'NOW()' : 'completed_at';
 
     await db.query(
       `UPDATE schedules 
@@ -161,7 +161,7 @@ exports.updateSchedule = async (req, res) => {
     );
 
     const [updatedSchedule] = await db.query(
-      `SELECT s.*, b.id as bin_id_ref, b.location as bin_location, u.name as collector_name
+      `SELECT s.*, b.id AS bin_id, b.location as bin_location, u.name as collector_name
        FROM schedules s
        LEFT JOIN bins b ON s.bin_id = b.id
        LEFT JOIN users u ON s.collector_id = u.id

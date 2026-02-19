@@ -3,7 +3,7 @@ const db = require('./config/database');
 
 async function createCitizen() {
   try {
-    console.log('🔧 Creating citizen user...\n');
+    // console.log('🔧 Creating citizen user...\n');
 
     // Check if citizen already exists
     const [existing] = await db.query(
@@ -11,8 +11,8 @@ async function createCitizen() {
       ['citizen@smartwaste.com']
     );
 
-    if (existing.length > 0) {
-      console.log('✅ Citizen user already exists!');
+    if (existing) {
+      // console.log('✅ Citizen user already exists!');
       process.exit(0);
     }
 
@@ -26,15 +26,14 @@ async function createCitizen() {
       ['Jane Citizen', 'citizen@smartwaste.com', password, '+0987654321', '123 Main Street', 'citizen']
     );
 
-    console.log('✅ Citizen user created successfully!');
-    console.log('\nLogin credentials:');
-    console.log('Email: citizen@smartwaste.com');
-    console.log('Password: citizen123');
-    console.log('Role: citizen');
+    // console.log('✅ Citizen user created successfully!');
+    // console.log('\nLogin credentials:');
+    // console.log('Email: citizen@smartwaste.com');
+    // console.log('Role: citizen');
 
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error:', error);
+    // console.error('❌ Error:', error);
     process.exit(1);
   }
 }

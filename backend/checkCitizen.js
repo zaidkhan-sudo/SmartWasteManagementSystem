@@ -11,7 +11,7 @@ async function checkCitizen() {
       ['citizen@smartwaste.com']
     );
 
-    if (users.length === 0) {
+    if (!users || users.length === 0) {
       console.log('❌ Citizen user not found!');
       process.exit(1);
     }
@@ -43,9 +43,6 @@ async function checkCitizen() {
     }
 
     console.log('\n✅ Citizen account is ready!');
-    console.log('Email: citizen@smartwaste.com');
-    console.log('Password: citizen123');
-
     process.exit(0);
   } catch (error) {
     console.error('❌ Error:', error);
