@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { binsAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
 import {
@@ -7,7 +6,6 @@ import {
   FiEdit2,
   FiTrash2,
   FiMapPin,
-  FiFilter,
   FiSearch
 } from 'react-icons/fi';
 
@@ -42,11 +40,11 @@ const Bins = () => {
       if (filterType) params.type = filterType;
       if (filterStatus) params.status = filterStatus;
 
-      const response = await binsAPI.getAll(params);
+      const response = await binsAPI.getAll(user.token, params);
       setBins(response.data.data);
     } catch (error) {
       toast.error('Failed to fetch bins');
-      console.error('Error fetching bins:', error);
+      // console.error('Error fetching bins:', error);
     } finally {
       setLoading(false);
     }
@@ -63,10 +61,10 @@ const Bins = () => {
     e.preventDefault();
     try {
       if (editingBin) {
-        await binsAPI.update(editingBin.id, formData);
+        await binsAPI.update(user.token, editingBin.id, formData);
         toast.success('Bin updated successfully');
       } else {
-        await binsAPI.create(formData);
+        await binsAPI.create(user.token, formData);
         toast.success('Bin created successfully');
       }
       setShowModal(false);
@@ -74,7 +72,7 @@ const Bins = () => {
       fetchBins();
     } catch (error) {
       toast.error(editingBin ? 'Failed to update bin' : 'Failed to create bin');
-      console.error('Error saving bin:', error);
+      // console.error('Error saving bin:', error);
     }
   };
 
@@ -95,12 +93,12 @@ const Bins = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this bin?')) {
       try {
-        await binsAPI.delete(id);
+        await binsAPI.delete(user.token, id);
         toast.success('Bin deleted successfully');
         fetchBins();
       } catch (error) {
         toast.error('Failed to delete bin');
-        console.error('Error deleting bin:', error);
+        // console.error('Error deleting bin:', error);
       }
     }
   };
@@ -443,4 +441,5 @@ const Bins = () => {
   );
 };
 
+import { binsAPI } from '../services/api';
 export default Bins;

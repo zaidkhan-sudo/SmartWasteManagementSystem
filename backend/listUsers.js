@@ -7,7 +7,7 @@ async function listUsers() {
     );
 
     if (users.length === 0) {
-      
+      console.log('No users found.');
     } else {
       users.forEach(user => {
         console.log(`${user.id}. ${user.name} (${user.email}) - ${user.role}`);

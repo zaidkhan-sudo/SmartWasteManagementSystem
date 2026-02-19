@@ -6,9 +6,9 @@ async function updatePasswords() {
     console.log('🔄 Updating user passwords...');
 
     // Hash the passwords
-    const adminPassword = await bcrypt.hash('admin123', 10);
-    const collectorPassword = await bcrypt.hash('collector123', 10);
-    const citizenPassword = await bcrypt.hash('citizen123', 10);
+    const adminPassword = await bcrypt.hash(process.env.DEFAULT_ADMIN_PASSWORD || 'admin123', 10);
+    const collectorPassword = await bcrypt.hash(process.env.DEFAULT_COLLECTOR_PASSWORD || 'collector123', 10);
+    const citizenPassword = await bcrypt.hash(process.env.DEFAULT_CITIZEN_PASSWORD || 'citizen123', 10);
 
     // Update admin password
     await db.query(
@@ -32,11 +32,7 @@ async function updatePasswords() {
     console.log('✅ Citizen password updated');
 
     console.log('\n🎉 All passwords updated successfully!');
-    console.log('\nYou can now login with:');
-    console.log('Admin: admin@smartwaste.com / admin123');
-    console.log('Collector: collector@smartwaste.com / collector123');
-    console.log('Citizen: citizen@smartwaste.com / citizen123');
-
+    // Removing console logs that expose default credentials
     return 0;
   } catch (error) {
     console.error('❌ Error updating passwords:', error);

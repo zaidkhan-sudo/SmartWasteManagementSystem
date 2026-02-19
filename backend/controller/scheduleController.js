@@ -9,7 +9,7 @@ exports.getAllSchedules = async (req, res) => {
     
     let query = `
       SELECT s.*, 
-             b.id as bin_id_ref, b.location as bin_location, b.status as bin_status, b.fill_level,
+             b.bin_id as bin_id_ref, b.location as bin_location, b.status as bin_status, b.fill_level,
              u.name as collector_name
       FROM schedules s
       LEFT JOIN bins b ON s.bin_id = b.id
@@ -64,7 +64,7 @@ exports.getSchedule = async (req, res) => {
   try {
     const [schedules] = await db.query(
       `SELECT s.*, 
-              b.id as bin_id_ref, b.location as bin_location, b.latitude, b.longitude, b.status as bin_status, b.fill_level,
+              b.bin_id as bin_id_ref, b.location as bin_location, b.latitude, b.longitude, b.status as bin_status, b.fill_level,
               u.name as collector_name, u.phone as collector_phone
        FROM schedules s
        LEFT JOIN bins b ON s.bin_id = b.id

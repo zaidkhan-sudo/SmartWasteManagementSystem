@@ -96,7 +96,7 @@ exports.getRecentActivity = async (req, res) => {
         u.name as user_name,
         ch.waste_amount as amount
       FROM collection_history ch
-      LEFT JOIN bins b ON ch.bin_id = b.id
+      LEFT JOIN bins b ON ch.bin_id = b.bin_id
       LEFT JOIN users u ON ch.collector_id = u.id
       ORDER BY ch.collection_date DESC
       LIMIT ?)
@@ -110,7 +110,7 @@ exports.getRecentActivity = async (req, res) => {
         u.name as user_name,
         NULL as amount
       FROM reports r
-      LEFT JOIN bins b ON r.bin_id = b.id
+      LEFT JOIN bins b ON r.bin_id = b.bin_id
       LEFT JOIN users u ON r.user_id = u.id
       ORDER BY r.created_at DESC
       LIMIT ?)

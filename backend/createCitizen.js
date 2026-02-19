@@ -11,7 +11,7 @@ async function createCitizen() {
       ['citizen@smartwaste.com']
     );
 
-    if (existing[0]?.length > 0) {
+    if (existing.length > 0) {
       // console.log('✅ Citizen user already exists!');
       process.exit(0);
     }
