@@ -117,6 +117,8 @@ exports.updateUser = async (req, res) => {
     }
 
     updates.push('updated_at = CURRENT_TIMESTAMP');
+    values.push(new Date());
+    
     values.push(userId);
 
     await db.query(

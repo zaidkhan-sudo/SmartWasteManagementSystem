@@ -200,23 +200,20 @@ exports.updateReport = async (req, res) => {
     const updateFields = [];
     const params = [];
 
-    // Citizens can edit basic fields if it's their report
-    if (bin_id && (req.user.role === 'citizen' && reports[0].user_id === req.user.id)) {
-      updateFields.push('bin_id = ?');
-      params.push(bin_id);
-    }
+    const isCitizenUpdating = req.user.role === 'citizen' && reports[0].user_id === req.user.id;
 
-    if (issue_type && (req.user.role === 'citizen' && reports[0].user_id === req.user.id)) {
+    // Citizens can edit basic fields if it's their report
+    if (issue_type && isCitizenUpdating) {
       updateFields.push('issue_type = ?');
       params.push(issue_type);
     }
 
-    if (description && (req.user.role === 'citizen' && reports[0].user_id === req.user.id)) {
+    if (description && isCitizenUpdating) {
       updateFields.push('description = ?');
       params.push(description);
     }
 
-    if (priority && (req.user.role === 'citizen' && reports[0].user_id === req.user.id)) {
+    if (priority && isCitizenUpdating) {
       updateFields.push('priority = ?');
       params.push(priority);
     }

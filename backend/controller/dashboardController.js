@@ -22,7 +22,7 @@ exports.getDashboardStats = async (req, res) => {
         SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending_schedules,
         SUM(CASE WHEN status = 'completed' AND DATE(completed_at) = CURDATE() THEN 1 ELSE 0 END) as completed_today
       FROM collection_schedules
-      WHERE scheduled_date > CURDATE()
+      WHERE scheduled_date >= CURDATE()
     `);
 
     // Report statistics
