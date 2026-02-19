@@ -117,7 +117,7 @@ exports.updateUser = async (req, res) => {
     }
 
     updates.push('updated_at = CURRENT_TIMESTAMP');
-    values.push(new Date());
+    values.push(new Date().toISOString().slice(0, 19).replace('T', ' '));
     
     values.push(userId);
 
