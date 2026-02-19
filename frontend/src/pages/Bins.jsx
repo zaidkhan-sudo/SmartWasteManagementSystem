@@ -283,7 +283,7 @@ const Bins = () => {
         </div>
       )}
 
-      {filteredBins.length === 0 && !loading && (
+      {bins.length === 0 && !loading && (
         <div className="text-center py-12 bg-white rounded-xl shadow">
           <FiTrash2 className="mx-auto text-gray-400 text-5xl mb-4" />
           <p className="text-gray-600">No bins found</p>

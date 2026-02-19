@@ -31,7 +31,6 @@ exports.getAllBins = async (req, res) => {
       data: bins
     });
   } catch (error) {
-    console.error('Get bins error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'
@@ -61,7 +60,6 @@ exports.getBin = async (req, res) => {
       data: bins[0]
     });
   } catch (error) {
-    console.error('Get bin error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'
@@ -84,7 +82,7 @@ exports.createBin = async (req, res) => {
 
     const [newBin] = await db.query(
       'SELECT * FROM bins WHERE id = ?',
-      [result.insertId]
+      [id]
     );
 
     res.status(201).json({
@@ -93,7 +91,6 @@ exports.createBin = async (req, res) => {
       data: newBin[0]
     });
   } catch (error) {
-    console.error('Create bin error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'
@@ -119,7 +116,7 @@ exports.updateBin = async (req, res) => {
 
     // Update status based on fill_level if provided
     let updatedStatus = status;
-    if (fill_level !== undefined && !status) {
+    if (status === undefined && fill_level !== undefined) {
       const level = parseInt(fill_level);
       if (level >= 90) updatedStatus = 'full';
       else if (level >= 70) updatedStatus = 'high';
@@ -149,7 +146,6 @@ exports.updateBin = async (req, res) => {
       data: updatedBin[0]
     });
   } catch (error) {
-    console.error('Update bin error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'
@@ -178,7 +174,6 @@ exports.deleteBin = async (req, res) => {
       message: 'Bin deleted successfully'
     });
   } catch (error) {
-    console.error('Delete bin error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'
@@ -217,7 +212,6 @@ exports.getBinStats = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error('Get bin stats error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'

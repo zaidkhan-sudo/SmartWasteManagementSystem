@@ -26,7 +26,7 @@ exports.getNotifications = async (req, res) => {
       data: notifications
     });
   } catch (error) {
-    console.error('Get notifications error:', error);
+    // console.error('Get notifications error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'
@@ -49,7 +49,7 @@ exports.markAsRead = async (req, res) => {
       message: 'Notification marked as read'
     });
   } catch (error) {
-    console.error('Mark as read error:', error);
+    // console.error('Mark as read error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'
@@ -72,7 +72,7 @@ exports.markAllAsRead = async (req, res) => {
       message: 'All notifications marked as read'
     });
   } catch (error) {
-    console.error('Mark all as read error:', error);
+    // console.error('Mark all as read error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'
@@ -95,7 +95,7 @@ exports.deleteNotification = async (req, res) => {
       message: 'Notification deleted'
     });
   } catch (error) {
-    console.error('Delete notification error:', error);
+    // console.error('Delete notification error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'

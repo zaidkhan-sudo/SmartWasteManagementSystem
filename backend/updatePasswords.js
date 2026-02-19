@@ -37,11 +37,14 @@ async function updatePasswords() {
     console.log('Collector: collector@smartwaste.com / collector123');
     console.log('Citizen: citizen@smartwaste.com / citizen123');
 
-    process.exit(0);
+    return 0;
   } catch (error) {
     console.error('❌ Error updating passwords:', error);
-    process.exit(1);
+    return 1;
   }
 }
 
-updatePasswords();
+updatePasswords()
+  .then((exitCode) => {
+    process.exit(exitCode);
+  });

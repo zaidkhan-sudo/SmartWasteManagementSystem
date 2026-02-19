@@ -16,7 +16,7 @@ exports.getAllUsers = async (req, res) => {
       data: users
     });
   } catch (error) {
-    console.error('Get all users error:', error);
+    // console.error('Get all users error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error while fetching users'
@@ -46,7 +46,7 @@ exports.getUser = async (req, res) => {
       data: users[0]
     });
   } catch (error) {
-    console.error('Get user error:', error);
+    // console.error('Get user error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error while fetching user'
@@ -95,11 +95,11 @@ exports.updateUser = async (req, res) => {
       updates.push('email = ?');
       values.push(email);
     }
-    if (phone !== undefined) {
+    if (phone !== undefined && phone !== null && phone !== '') {
       updates.push('phone = ?');
       values.push(phone);
     }
-    if (address !== undefined) {
+    if (address !== undefined && address !== null && address !== '') {
       updates.push('address = ?');
       values.push(address);
     }
@@ -136,7 +136,7 @@ exports.updateUser = async (req, res) => {
       data: updatedUsers[0]
     });
   } catch (error) {
-    console.error('Update user error:', error);
+    // console.error('Update user error:', error);
     
     // Handle duplicate email error
     if (error.code === 'ER_DUP_ENTRY') {
@@ -188,7 +188,7 @@ exports.deleteUser = async (req, res) => {
       message: 'User deleted successfully'
     });
   } catch (error) {
-    console.error('Delete user error:', error);
+    // console.error('Delete user error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error while deleting user'
@@ -267,7 +267,7 @@ exports.updatePassword = async (req, res) => {
       message: 'Password updated successfully'
     });
   } catch (error) {
-    console.error('Update password error:', error);
+    // console.error('Update password error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error while updating password'
@@ -302,7 +302,7 @@ exports.getUsersByRole = async (req, res) => {
       data: users
     });
   } catch (error) {
-    console.error('Get users by role error:', error);
+    // console.error('Get users by role error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error while fetching users'

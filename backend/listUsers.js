@@ -2,14 +2,12 @@ const db = require('./config/database');
 
 async function listUsers() {
   try {
-    console.log('📋 Current users in database:\n');
-
     const [users] = await db.query(
       'SELECT id, name, email, role FROM users ORDER BY id'
     );
 
     if (users.length === 0) {
-      console.log('❌ No users found!');
+      
     } else {
       users.forEach(user => {
         console.log(`${user.id}. ${user.name} (${user.email}) - ${user.role}`);
