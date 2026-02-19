@@ -21,7 +21,7 @@ exports.getDashboardStats = async (req, res) => {
         COUNT(*) as total_schedules,
         SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending_schedules,
         SUM(CASE WHEN status = 'completed' AND DATE(completed_at) = CURDATE() THEN 1 ELSE 0 END) as completed_today
-      FROM collection_schedules
+      FROM schedules
       WHERE scheduled_date >= CURDATE()
     `);
 
@@ -47,8 +47,8 @@ exports.getDashboardStats = async (req, res) => {
     // Recent activity
     const [recentCollections] = await db.query(`
       SELECT COUNT(*) as count
-      FROM collection_history
-      WHERE collection_date >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+      FROM schedules
+      WHERE scheduled_date >= DATE_SUB(NOW(), INTERVAL 7 DAY)
     `);
 
     // Waste collected this month

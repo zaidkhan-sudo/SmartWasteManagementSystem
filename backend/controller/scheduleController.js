@@ -146,7 +146,7 @@ exports.updateSchedule = async (req, res) => {
     }
 
     // If status is being set to completed, update completed_at
-    const completedAt = status === 'completed' ? 'NOW()' : null;
+    //const completedAt = status === 'completed' ? 'NOW()' : null;
 
     await db.query(
       `UPDATE schedules 

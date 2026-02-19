@@ -25,15 +25,16 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const [statsResponse, binsResponse, reportsResponse] = await Promise.all([
-        analyticsAPI.getDashboard(user?.token),
-        binsAPI.getAll(user?.token, {limit: 5}),
-        reportsAPI.getAll(user?.token, {limit: 5})
+        user ? analyticsAPI.getDashboard(user.token) : null,
+        user ? binsAPI.getAll(user.token, {limit: 5}) : null,
+        user ? reportsAPI.getAll(user.token, {limit: 5}) : null
       ]);
 
-      setStats(statsResponse.data.data);
-      setRecentBins(binsResponse.data.data);
-      setRecentReports(reportsResponse.data.data);
+      setStats(statsResponse?.data?.data);
+      setRecentBins(binsResponse?.data?.data);
+      setRecentReports(reportsResponse?.data?.data);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error fetching dashboard data:', error);
     } finally {
       setLoading(false);

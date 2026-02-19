@@ -40,7 +40,7 @@ const Bins = () => {
       if (filterType) params.type = filterType;
       if (filterStatus) params.status = filterStatus;
 
-      const response = await binsAPI.getAll(user.token, params);
+      const response = await binsAPI.getAll(user?.token, params);
       setBins(response.data.data);
     } catch (error) {
       toast.error('Failed to fetch bins');
@@ -61,10 +61,10 @@ const Bins = () => {
     e.preventDefault();
     try {
       if (editingBin) {
-        await binsAPI.update(user.token, editingBin.id, formData);
+        await binsAPI.update(user?.token, editingBin.id, formData);
         toast.success('Bin updated successfully');
       } else {
-        await binsAPI.create(user.token, formData);
+        await binsAPI.create(user?.token, formData);
         toast.success('Bin created successfully');
       }
       setShowModal(false);
@@ -93,7 +93,7 @@ const Bins = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this bin?')) {
       try {
-        await binsAPI.delete(user.token, id);
+        await binsAPI.delete(user?.token, id);
         toast.success('Bin deleted successfully');
         fetchBins();
       } catch (error) {

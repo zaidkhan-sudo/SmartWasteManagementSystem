@@ -9,12 +9,12 @@ async function checkCitizen() {
       ['citizen@smartwaste.com']
     );
 
-    if (users[0].length === 0) {
+    if (users.length === 0) {
       console.log('Citizen user not found, please create one.');
       return;
     }
 
-    const user = users[0][0];
+    const user = users[0];
 
     const testPassword = 'citizen123';
     if (user) {

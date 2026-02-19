@@ -140,19 +140,21 @@ exports.createReport = async (req, res) => {
     // Create notification for admins (with error handling)
     try {
       const [admins] = await db.query('SELECT id FROM users WHERE role = "admin"');
-      for (const admin of admins) {
-        await db.query(
-          `INSERT INTO notifications (user_id, title, message, type, related_entity_type, related_entity_id)
-           VALUES (?, ?, ?, ?, ?, ?)`,
-          [
-            admin.id,
-            'New Report Submitted',
-            `A new ${issue_type} report has been submitted`,
-            'alert',
-            'report',
-            result.insertId
-          ]
-        );
+      if (admins && admins.length > 0) {
+        for (const admin of admins) {
+          await db.query(
+            `INSERT INTO notifications (user_id, title, message, type, related_entity_type, related_entity_id)
+             VALUES (?, ?, ?, ?, ?, ?)`,
+            [
+              admin.id,
+              'New Report Submitted',
+              `A new ${issue_type} report has been submitted`,
+              'alert',
+              'report',
+              result.insertId
+            ]
+          );
+        }
       }
     } catch (notificationError) {
       console.error('Failed to create notification:', notificationError);

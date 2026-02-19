@@ -115,7 +115,7 @@ exports.updateBin = async (req, res) => {
     }
 
     // Update status based on fill_level if provided
-    let updatedStatus = status;
+    let updatedStatus = undefined;
     if (status === undefined && fill_level !== undefined) {
       const level = parseInt(fill_level);
       if (level >= 90) updatedStatus = 'full';
@@ -135,7 +135,7 @@ exports.updateBin = async (req, res) => {
            status = COALESCE(?, status),
            type = COALESCE(?, type)
        WHERE id = ?`,
-      [location, latitude, longitude, capacity, fill_level, updatedStatus !== undefined ? updatedStatus : null, type, req.params.id]
+      [location, latitude, longitude, capacity, fill_level, updatedStatus !== undefined ? updatedStatus : status, type, req.params.id]
     );
 
     const [updatedBin] = await db.query('SELECT * FROM bins WHERE id = ?', [req.params.id]);
