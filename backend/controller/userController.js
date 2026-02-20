@@ -95,11 +95,11 @@ exports.updateUser = async (req, res) => {
       updates.push('email = ?');
       values.push(email);
     }
-    if (phone !== undefined) {
+    if (phone !== null && phone !== undefined) {
       updates.push('phone = ?');
       values.push(phone);
     }
-    if (address !== undefined) {
+    if (address !== null && address !== undefined) {
       updates.push('address = ?');
       values.push(address);
     }
@@ -117,10 +117,13 @@ exports.updateUser = async (req, res) => {
     }
 
     updates.push('updated_at = CURRENT_TIMESTAMP');
+    
+    const query = `UPDATE users SET ${updates.join(', ')} WHERE id = ?`;
+
     values.push(userId);
 
     await db.query(
-      `UPDATE users SET ${updates.join(', ')} WHERE id = ?`,
+      query,
       values
     );
 
