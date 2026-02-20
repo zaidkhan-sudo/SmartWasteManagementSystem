@@ -95,11 +95,11 @@ exports.updateUser = async (req, res) => {
       updates.push('email = ?');
       values.push(email);
     }
-    if (phone !== undefined) {
+    if (phone !== undefined && phone !== null && phone !== '') {
       updates.push('phone = ?');
       values.push(phone);
     }
-    if (address !== undefined) {
+    if (address !== undefined && address !== null && address !== '') {
       updates.push('address = ?');
       values.push(address);
     }
