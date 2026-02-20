@@ -24,15 +24,15 @@ exports.protect = async (req, res, next) => {
         [decoded.id]
       );
 
-      if (users.length === 0) {
+      if (users && users.length > 0) {
+        req.user = users[0];
+        next();
+      } else {
         return res.status(401).json({
           success: false,
           message: 'User not found'
         });
       }
-
-      req.user = users[0];
-      next();
     } catch (error) {
       return res.status(401).json({
         success: false,
